@@ -5,7 +5,7 @@ import Product from "@/models/Product";
 import db from "@/utils/db";
 import React, { useState } from "react";
 
-export default function Dashboard({ products }) {
+export default function ProductsPage({ products }) {
   const [ShowSidebar, setShowSidebar] = useState(true);
   return (
     <>
@@ -55,6 +55,7 @@ export default function Dashboard({ products }) {
     </>
   );
 }
+ProductsPage.auth=true
 export async function getServerSideProps() {
   await db.connect();
   const products = await Product.find().lean();
