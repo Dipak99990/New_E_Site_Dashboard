@@ -43,7 +43,7 @@ export default function ProductItem({ product }) {
       </div>
     </>
   );
-}
+}ProductItem.auth=true
 export async function getServerSideProps(context) {
   const { params } = context;
   const { _id } = params;
