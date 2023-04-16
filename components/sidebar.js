@@ -16,17 +16,17 @@ function Sidebar({ ShowSidebar }) {
               </li>
             </div>
             <Link href="products">
-              <li className="px-6 py-3 hover:bg-white hover:text-green-900">
+              <li className="px-6 py-3 hover:bg-white hover:text-green-900 active:bg-white">
                 Products
               </li>
             </Link>
             <Link href="orders">
-              <li className="px-6 py-3 hover:bg-white hover:text-green-900">
+              <li className="px-6 py-3 hover:bg-white hover:text-green-900 active:bg-white">
                 Orders
               </li>
             </Link>{" "}
             <Link href="users">
-              <li className="px-6 py-3 hover:bg-white hover:text-green-900">
+              <li className="px-6 py-3 hover:bg-white hover:text-green-900 active:bg-white">
                 Users
               </li>
             </Link>

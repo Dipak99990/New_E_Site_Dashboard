@@ -1,10 +1,18 @@
 import Layout from "@/components/layout";
 import OrderPage from "@/components/pages/orders";
 import Sidebar from "@/components/sidebar";
+import Order from "@/models/Order";
+import db from "@/utils/db";
+import { useSession } from "next-auth/react";
+import DropdownLink from "@/components/DropdownLinks";
 import React, { useState } from "react";
-
-const Dashboard = () => {
+import { Menu } from "@headlessui/react";
+export default function OrdersDashboard(orders) {
   const [ShowSidebar, setShowSidebar] = useState(true);
+  const { data: session } = useSession();
+  const handlelogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
   return (
     <>
       <Layout title="Dashboard" />
@@ -40,14 +48,38 @@ const Dashboard = () => {
                 <div>New Sharma Furniture Udhyoug</div>
               </div>
 
-              <div>Profile</div>
+              <Menu as="div">
+                <Menu.Button>{session.user.name}</Menu.Button>
+                <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white shadow-lg">
+                  <Menu.Item as="div">
+                    <DropdownLink
+                      className="dropdown-link text-black"
+                      href="/"
+                      onClick={handlelogout}
+                    >
+                      Log Out
+                    </DropdownLink>
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
             </div>
           </nav>{" "}
-          <OrderPage />
+          <OrderPage orders={orders} />
         </div>
       </div>
     </>
   );
-};
+}
 
-export default Dashboard;
+OrdersDashboard.auth = true;
+export async function getServerSideProps() {
+  await db.connect();
+  const data = await Order.find().lean();
+  const orders = data.map(db.convertdoctoobj).filter((order) => order);
+  await db.disconnect();
+  return {
+    props: {
+      orders: orders,
+    },
+  };
+}

@@ -2,8 +2,15 @@ import Layout from "@/components/layout";
 import Sidebar from "@/components/sidebar";
 import React, { useState } from "react";
 import DashboardPage from "@/components/pages/dashboard";
+import { signOut, useSession } from "next-auth/react";
+import { Menu } from "@headlessui/react";
+import DropdownLink from "@/components/DropdownLinks";
 const Dashboard = () => {
   const [ShowSidebar, setShowSidebar] = useState(true);
+  const { data: session } = useSession();
+  const handlelogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
   return (
     <>
       <Layout title="Dashboard" />
@@ -39,7 +46,20 @@ const Dashboard = () => {
                 <div>New Sharma Furniture Udhyoug</div>
               </div>
 
-              <div>Profile</div>
+              <Menu as="div">
+                <Menu.Button>{session.user.name}</Menu.Button>
+                <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white shadow-lg">
+                  <Menu.Item as="div">
+                    <DropdownLink
+                      className="dropdown-link text-black"
+                      href="/"
+                      onClick={handlelogout}
+                    >
+                      Log Out
+                    </DropdownLink>
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
             </div>
           </nav>
           <DashboardPage />
@@ -50,4 +70,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-Dashboard.auth=true
+Dashboard.auth = true;

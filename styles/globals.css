@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "react-toastify/dist/ReactToastify.css";
+
 .card {
   @apply mb-5 block rounded-lg border border-green-400 shadow-md;
 }

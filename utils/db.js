@@ -30,8 +30,22 @@ const convertdoctoobj = (doc) => {
   if (doc.updatedAt) {
     doc.updatedAt = doc.updatedAt.toString();
   }
-
+  if (doc.user) {
+    doc.user = doc.user.toString();
+  }
+  if (doc.orderItems) {
+    doc.orderItems = doc.orderItems.map((item) => {
+      if (item._id) {
+        item._id = item._id.toString();
+      }
+      return item;
+    });
+  }
+  if (doc.paidAt) {
+    doc.paidAt = doc.paidAt.toString();
+  }
   return doc;
 };
+
 const db = { connect, disconnect, convertdoctoobj };
 export default db;

@@ -3,10 +3,12 @@ import ProductsPage from "@/components/pages/products";
 import Sidebar from "@/components/sidebar";
 import Product from "@/models/Product";
 import db from "@/utils/db";
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 export default function ProductsScreen({ products }) {
   const [ShowSidebar, setShowSidebar] = useState(true);
+  const { data: session } = useSession();
   return (
     <>
       <Layout title="Dashboard" />
@@ -42,7 +44,7 @@ export default function ProductsScreen({ products }) {
                 <div>New Sharma Furniture Udhyoug</div>
               </div>
 
-              <div>Profile</div>
+              <div>{session?.user.name}</div>
             </div>
           </nav>{" "}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
@@ -55,7 +57,7 @@ export default function ProductsScreen({ products }) {
     </>
   );
 }
-ProductsScreen.auth=true
+ProductsScreen.auth = true;
 export async function getServerSideProps() {
   await db.connect();
   const products = await Product.find().lean();

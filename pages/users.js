@@ -1,10 +1,18 @@
 import Layout from "@/components/layout";
 import UsersPage from "@/components/pages/users";
 import Sidebar from "@/components/sidebar";
+import User from "@/models/User";
+import db from "@/utils/db";
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-
-const Dashboard = () => {
+import DropdownLink from "@/components/DropdownLinks";
+import { Menu } from "@headlessui/react";
+const UsersDashboard = ({ users }) => {
   const [ShowSidebar, setShowSidebar] = useState(true);
+  const { data: session } = useSession();
+  const handlelogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
   return (
     <>
       <Layout title="Dashboard" />
@@ -40,14 +48,39 @@ const Dashboard = () => {
                 <div>New Sharma Furniture Udhyoug</div>
               </div>
 
-              <div>Profile</div>
+              <Menu as="div">
+                <Menu.Button>{session.user.name}</Menu.Button>
+                <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white shadow-lg">
+                  <Menu.Item as="div">
+                    <DropdownLink
+                      className="dropdown-link text-black"
+                      href="/"
+                      onClick={handlelogout}
+                    >
+                      Log Out
+                    </DropdownLink>
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
             </div>
           </nav>{" "}
-          <UsersPage />
+          <UsersPage users={users} />
         </div>
       </div>
     </>
   );
 };
 
-export default Dashboard;
+export default UsersDashboard;
+UsersDashboard.auth = true;
+
+export async function getServerSideProps() {
+  await db.connect();
+  const users = await User.find().lean();
+  await db.disconnect();
+  return {
+    props: {
+      users: users.map(db.convertdoctoobj),
+    },
+  };
+}

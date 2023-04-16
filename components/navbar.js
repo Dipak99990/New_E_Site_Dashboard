@@ -1,7 +1,10 @@
+import { useSession } from "next-auth/react";
 import React from "react";
+import { Menu } from "@headlessui/react";
 
 function Navbar({ ShowSidebar }) {
   const [ShowSidebar, setShowSidebar] = useState(true);
+  const { data: session } = useSession();
   return (
     <div>
       {" "}
@@ -32,7 +35,18 @@ function Navbar({ ShowSidebar }) {
             <div>New Sharma Furniture Udhyoug</div>
           </div>
 
-          <div>Profile</div>
+          <Menu>
+            <Menu.Button>{session.user.name}</Menu.Button>
+            <Menu.Items>
+              <Menu.Item>
+                {({ active }) => (
+                  <a className={`${active && "bg-green-500"}`} href="/">
+                    Logout
+                  </a>
+                )}
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
         </div>
       </nav>
     </div>
