@@ -43,13 +43,17 @@ export default function ProductItem({ product }) {
       </div>
     </>
   );
-}ProductItem.auth=true
+}
+ProductItem.auth=true
+
 export async function getServerSideProps(context) {
   const { params } = context;
   const { _id } = params;
   await db.connect();
   const product = await Product.findOne({ _id }).lean();
-  await db.disconnect();
+  if(product.length>0){
+    await db.disconnect();
+  }
   return {
     props: {
       product: product ? db.convertdoctoobj(product) : null,

@@ -1,10 +1,17 @@
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useContext } from "react";
 import { Menu } from "@headlessui/react";
+import { StoreContext } from "@/providers/StoreContext";
 
-function Navbar({ ShowSidebar }) {
-  const [ShowSidebar, setShowSidebar] = useState(true);
+function Navbar() {
+  
+  const {setShowSidebar} = useContext(StoreContext)
   const { data: session } = useSession();
+
+  function handleShowSideBar(){
+    setShowSidebar((prevState)=>!prevState)
+  }
+
   return (
     <div>
       {" "}
@@ -13,7 +20,7 @@ function Navbar({ ShowSidebar }) {
           <div className="flex gap-8">
             <div>
               <button
-                onClick={() => setShowSidebar(!ShowSidebar)}
+                onClick={handleShowSideBar}
                 className="fixed"
               >
                 <svg
