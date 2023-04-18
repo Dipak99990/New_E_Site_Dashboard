@@ -1,3 +1,7 @@
+import MainLayout from "@/Layouts/MainAppLayout";
+import Navbar from "@/components/navbar";
+import Sidebar from "@/components/sidebar";
+import StoreContextProviders from "@/providers/StoreContext";
 import "@/styles/globals.css";
 
 import { SessionProvider, useSession } from "next-auth/react";
@@ -27,6 +31,12 @@ function Auth({ children }) {
     return <h1>Loading...</h1>;
   }
 
-  return children;
+  return (
+    <div>
+      <StoreContextProviders>
+        <div>{children}</div>
+      </StoreContextProviders>
+    </div>
+  );
 }
 export default App;

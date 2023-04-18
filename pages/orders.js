@@ -7,64 +7,78 @@ import { useSession } from "next-auth/react";
 import DropdownLink from "@/components/DropdownLinks";
 import React, { useState } from "react";
 import { Menu } from "@headlessui/react";
-export default function OrdersDashboard(orders) {
-  const [ShowSidebar, setShowSidebar] = useState(true);
+export default function OrdersDashboard({ orders }) {
+
+  console.log(orders[0])
   const { data: session } = useSession();
   const handlelogout = () => {
     signOut({ callbackUrl: "/" });
   };
+
   return (
     <>
       <Layout title="Dashboard" />
       <div className="flex h-screen">
-        <div className="flex justify-between">
-          <Sidebar ShowSidebar={ShowSidebar} />{" "}
-        </div>
+       
         <div className="flex-1">
-          <nav className="bg-green-700 text-green-100 px-4 py-3">
-            <div className="flex justify-between">
-              <div className="flex gap-8">
-                <div>
-                  <button
-                    onClick={() => setShowSidebar(!ShowSidebar)}
-                    className="fixed"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                      />
-                    </svg>
-                  </button>
+          <div className="flex flex-col">
+            <div className="overflow-x-auto">
+              <div className="p-1.5 w-full inline-block align-middle">
+                <div className="overflow-hidden border rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                        >
+                          OrderId
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                        >
+                          Name
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                        >
+                          Email
+                        </th>
+                       
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                        >
+                          Order Items
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                        >
+                          Paid Status
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 max-w-[6rem] py-3 text-xs font-bold text-right text-gray-500 uppercase "
+                        >
+                          Mark as completed
+                        </th>
+                    
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {orders.length > 0 &&
+                        orders.map((order) => (
+                          <OrderPage key={order._id} {...order} />
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
-                <div>New Sharma Furniture Udhyoug</div>
               </div>
-
-              <Menu as="div">
-                <Menu.Button>{session.user.name}</Menu.Button>
-                <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white shadow-lg">
-                  <Menu.Item as="div">
-                    <DropdownLink
-                      className="dropdown-link text-black"
-                      href="/"
-                      onClick={handlelogout}
-                    >
-                      Log Out
-                    </DropdownLink>
-                  </Menu.Item>
-                </Menu.Items>
-              </Menu>
             </div>
-          </nav>{" "}
-          <OrderPage orders={orders} />
+          </div>
         </div>
       </div>
     </>
