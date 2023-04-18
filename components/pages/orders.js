@@ -20,23 +20,32 @@ function OrderPage({
   // console.log("ordr", orders); // check the data type of orders
   // const apple = [1, 2, 3];
   // console.log("apple", Array.isArray(apple));
-  const { city, district, ward } = shippingAddress;
+
   return (
     <tr>
       <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-        {_id}
+        {_id.slice(-7)}
       </td>
       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
         {shippingAddress.fullName}
       </td>
       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-        {email}
+        {shippingAddress.city},{shippingAddress.district},{shippingAddress.ward}
       </td>
 
       <td className="px-6 max-w-3xlpy-4 text-sm text-gray-800 whitespace-nowrap">
         {orderItems.length > 0 &&
-          orderItems.map(({ name }) => <h4>{name},</h4>)}
+          orderItems.map(({ name }) => (
+            <div key={orderItems._id}>
+              <h4>{name}</h4>
+            </div>
+          ))}
       </td>
+
+      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+        $ {totalAmt}
+      </td>
+
       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
         {isPaid ? (
           <CheckBadgeIcon className="h-7 text-blue-600" />

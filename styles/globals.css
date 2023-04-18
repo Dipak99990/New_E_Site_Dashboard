@@ -18,7 +18,7 @@ textarea {
   @apply rounded-md border p-2 outline-none ring-indigo-200 focus:ring;
 }
 .dropdown-link {
-  @apply flex p-2 hover:bg-gray-200;
+  @apply flex p-2 hover:bg-gray-200 text-black;
 }
 .alert-error {
   @apply my-3 rounded-lg bg-red-100 p-3 text-red-700;

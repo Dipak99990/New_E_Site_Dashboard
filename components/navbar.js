@@ -1,16 +1,19 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import React, { useContext } from "react";
 import { Menu } from "@headlessui/react";
 import { StoreContext } from "@/providers/StoreContext";
+import DropdownLink from "./DropdownLinks";
 
 function Navbar() {
-  
-  const {setShowSidebar} = useContext(StoreContext)
+  const { setShowSidebar } = useContext(StoreContext);
   const { data: session } = useSession();
 
-  function handleShowSideBar(){
-    setShowSidebar((prevState)=>!prevState)
+  function handleShowSideBar() {
+    setShowSidebar((prevState) => !prevState);
   }
+  const handlelogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <div>
@@ -19,10 +22,7 @@ function Navbar() {
         <div className="flex justify-between">
           <div className="flex gap-8">
             <div>
-              <button
-                onClick={handleShowSideBar}
-                className="fixed"
-              >
+              <button onClick={handleShowSideBar} className="fixed">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -44,13 +44,15 @@ function Navbar() {
 
           <Menu>
             <Menu.Button>{session.user.name}</Menu.Button>
-            <Menu.Items>
-              <Menu.Item>
-                {({ active }) => (
-                  <a className={`${active && "bg-green-500"}`} href="/">
-                    Logout
-                  </a>
-                )}
+            <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white shadow-lg">
+              <Menu.Item as="div">
+                <DropdownLink
+                  className="dropdown-link"
+                  onClick={handlelogout}
+                  href="#"
+                >
+                  Log Out
+                </DropdownLink>
               </Menu.Item>
             </Menu.Items>
           </Menu>

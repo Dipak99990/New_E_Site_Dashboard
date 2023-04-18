@@ -3,11 +3,11 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 
 function Sidebar() {
-  const {ShowSidebar} = useContext(StoreContext)
+  const { ShowSidebar } = useContext(StoreContext);
   return (
     <>
       {ShowSidebar && (
-        <div className="fixed top-0 left-0 z-40 w-40  h-screen transition-transform -translate-x-full sm:translate-x-0 flex-none bg-green-800 text-green-100 ">
+        <div className="fixed top-0 left-0 z-40 w-40  h-screen transition-transform  translate-x-0 flex-none bg-green-800 text-green-100 ">
           <ul className="py-4">
             <div className="flex justify-between">
               <li className="px-6 py-3 text-lg font-bold">

@@ -1,25 +1,16 @@
 import Layout from "@/components/layout";
 import OrderPage from "@/components/pages/orders";
-import Sidebar from "@/components/sidebar";
+
 import Order from "@/models/Order";
 import db from "@/utils/db";
-import { useSession } from "next-auth/react";
-import DropdownLink from "@/components/DropdownLinks";
-import React, { useState } from "react";
-import { Menu } from "@headlessui/react";
-export default function OrdersDashboard({ orders }) {
 
-  console.log(orders[0])
-  const { data: session } = useSession();
-  const handlelogout = () => {
-    signOut({ callbackUrl: "/" });
-  };
+export default function OrdersDashboard({ orders }) {
+  console.log(orders);
 
   return (
     <>
       <Layout title="Dashboard" />
       <div className="flex h-screen">
-       
         <div className="flex-1">
           <div className="flex flex-col">
             <div className="overflow-x-auto">
@@ -44,14 +35,20 @@ export default function OrdersDashboard({ orders }) {
                           scope="col"
                           className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
                         >
-                          Email
+                          Address
                         </th>
-                       
+
                         <th
                           scope="col"
                           className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
                         >
                           Order Items
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                        >
+                          Total Amount
                         </th>
                         <th
                           scope="col"
@@ -65,7 +62,6 @@ export default function OrdersDashboard({ orders }) {
                         >
                           Mark as completed
                         </th>
-                    
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
