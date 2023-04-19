@@ -58,6 +58,12 @@ export default function OrdersDashboard({ orders }) {
                         </th>
                         <th
                           scope="col"
+                          className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                        >
+                          Order Date
+                        </th>
+                        <th
+                          scope="col"
                           className="px-6 max-w-[6rem] py-3 text-xs font-bold text-right text-gray-500 uppercase "
                         >
                           Mark as completed
